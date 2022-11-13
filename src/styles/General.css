@@ -1,0 +1,12 @@
+
+
+.add_todo input{
+height: 30px;
+}
+.add_todo button{
+    padding: 10px;
+    background-color: rgb(10, 88, 185);
+    color: #fff;
+    border: none;
+    margin-left: 10px;
+}

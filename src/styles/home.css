@@ -1,0 +1,26 @@
+.todos_container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 80vh;
+}
+.todos_wrapper{
+    width: 900px;
+}
+.todos-headers ul{
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+    column-gap:  4rem;
+  
+}
+.todos-headers ul li{
+    margin-bottom: 1.5rem;
+}
+.todos{
+    line-height: 1.7;
+   
+}
+form{
+    line-height: 2.2;
+}
