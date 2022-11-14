@@ -48,13 +48,46 @@ h1{
 .todos{
     line-height: 1.7;
     position: absolute;
-   
     left: 0;
     top: 50px;
     width: 80vw;
+    margin-top: 1rem;
    
 }
-form{
+.add_todo {
+	display: flex;
+	column-gap: 10px;
+	width: 450px;
+}
+.add_todo input {
+    color: #333;
+    border: 1px solid #bdbdbd;
+	height: 40px;
+	width: 100%;
+	padding-left: 0.7rem;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	-ms-border-radius: 8px;
+	-o-border-radius: 8px;
+}
+.add_todo ::-webkit-input-placeholder{
+	margin-left: 0.7rem;
+	color: #bdbdbd;
+}
+.add_todo button {
+	padding: 10px 16px;
+	background-color: #2F80ED;
+	color: #fff;
+	border: none;
+	box-shadow: 0px 3px 6px rgba(127, 177, 243, 0.4);
+	border-radius: 12px;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	-ms-border-radius: 12px;
+	-o-border-radius: 12px;
+}
+.tasks{
     line-height: 2.2;
 }
 
@@ -74,7 +107,7 @@ width: 400px;
     color: #828282;
 }
 .delete_all{
-     background-color: red;
+     background-color: #EB5757;
      color: white;
      border: none;
      padding: 8px 24px;
