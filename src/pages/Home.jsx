@@ -3,12 +3,16 @@ import { useState, useEffect } from 'react';
 import { MdDeleteOutline } from 'react-icons/md';
 import '../styles/home.css';
 const Home = () => {
+	// set the diplay of header & content
 	const [ isAll, setIsAll ] = useState(true);
 	const [ isActive, setIsActive ] = useState(false);
-	const [ isComplete, setIsComplete ] = useState(false);
+	const [isComplete, setIsComplete] = useState(false);
+	
+	// input and data from input & localstorage
 	const [ todos, setTodos ] = useState([]);
-	const [ todoItem, setTodoItem ] = useState("");
-	const [ error, setError ] = useState();
+	const [ todoItem, setTodoItem ] = useState([]);
+	const [taskCompleted, setTaskCompleted] = useState(false);
+	
 
 	// show all todos
 	const handleAll = () => {
@@ -36,18 +40,37 @@ const Home = () => {
 			let newTodoItem = {
 				id: uniqueId,
 				todo: todoItem,
-				complete: false
+				complete: false,
+				active:true,
 			};
 			setTodos([newTodoItem, ...todos]);
-			
 			setTodoItem('');
 		} else {
-			setError(true);
 			setTodoItem('');
 		}
 	};
 
-//save todos from local storage
+//get the todos on localstorage
+	useEffect(() => {
+		const todos = JSON.parse(localStorage.getItem('todos'));
+		if (todos) {
+			setTodos(todos);
+		}
+	}, []);
+
+	// completed task toggle
+	const toggleComplete = (id) => {
+		todos.find((todo) => {
+			if (todo.id === id) {
+				todo.complete = !todo.complete;
+			}
+			return setTodos([ ...todos ]);
+		});
+    setTaskCompleted(true)
+	};
+
+
+	//save todos from local storage
 	useEffect(
 		() => {
 			localStorage.setItem('todos', JSON.stringify(todos));
@@ -55,14 +78,6 @@ const Home = () => {
 		[ todos ]
 	);
 
-//get the todos on localstorage
-	useEffect(() => {
-		const todos = JSON.parse(localStorage.getItem('todos'));
-		console.log(todos)
-		if (todos) {
-			setTodos(todos);
-		}
-	}, []);
 
 
 
@@ -89,10 +104,11 @@ const Home = () => {
 										/>
 										<button type="submit">ADD</button>
 									</form>
+									{/* renderin all todos */}
 									<div className="tasks">
-										{todos.map((id,todo,complete) => {
+										{todos.map(({id,todo}) => {
 											return(<div className="form-control" key={id}>
-												<input type="checkbox" name="todo" className="task" />
+												<input type="checkbox" name="todo" className="task" onClick={() => toggleComplete(id)} />
 												<label htmlFor="todo">{todo}</label>
 											</div>)
 										})
@@ -109,28 +125,19 @@ const Home = () => {
 
 							{isActive && (
 								<section className="active_todos todos">
-									{/* <form className="add_todo" onSubmit={handleSubmit}>
-										<input
-											type="text"
-											placeholder="add details"
-											value={todoItem}
-											onChange={(e) => setTodoItem(e.target.value)}
-										/>
-										<button type="submit">ADD</button>
-									</form> */}
-									<div className='tasks'>
-										<div className="form-control">
-											<input type="checkbox" name="todo" className="task" />
-											<label htmlFor="todo">do coding challenge</label>
-										</div>
-										<div className="form-control">
-											<input type="checkbox" name="todo" className="task" />
-											<label htmlFor="todo">do coding challenge</label>
-										</div>
-										<div className="form-control">
-											<input type="checkbox" name="todo" className="task" />
-											<label htmlFor="todo">do coding challenge</label>
-										</div>
+
+									{/* rendering all active todos */}
+								<div className="tasks">
+										{todos.map(({id,todo,active}) => {
+											
+											return (<>{ active&&<div className="form-control" key={id}>
+												
+													<input type="checkbox" name="todo" className="task" onClick={() => toggleComplete(id)} />
+													<label htmlFor="todo">{todo}</label>
+												</div>}</>)
+										})
+										}
+									
 									</div>
 								</section>
 							)}
@@ -142,7 +149,7 @@ const Home = () => {
 
 							{isComplete && (
 								<section className="completed_todos todos">
-									<form>
+									{ taskCompleted &&<div>
 										<div className="form-control">
 											<div>
 												<input type="checkbox" name="todo" className="task" />
@@ -150,24 +157,11 @@ const Home = () => {
 											</div>
 											<MdDeleteOutline className="delete" />
 										</div>
-										<div className="form-control">
-											<div>
-												<input type="checkbox" name="todo" className="task" />
-												<label htmlFor="todo">do coding challenge</label>
-											</div>
-											<MdDeleteOutline className="delete" />
-										</div>
-										<div className="form-control">
-											<div>
-												<input type="checkbox" name="todo" className="task" />
-												<label htmlFor="todo">do coding challenge</label>
-											</div>
-											<MdDeleteOutline className="delete" />
-										</div>
+									
 										<button className="delete_all">
 											<MdDeleteOutline /> delete all
 										</button>
-									</form>
+									</div>}
 								</section>
 							)}
 						</div>
